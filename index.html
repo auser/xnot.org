@@ -11,6 +11,37 @@
 
       <p>
         The new poolparty is coming soon...
+<code id="content">
+<pre><h4># Basic poolparty template</h4>
+<span class=ident>require</span> <span class=punct>&quot;</span><span class=string><span class=expr>poolparty_apache2_plugin</span><span class=punct>&quot;</span>
+
+<span class=ident>pool</span> <span class=symbol>:cb</span> <span class=keyword>do</span>
+
+  <span class=ident>instances</span> <span class=number>2</span><span class=punct>..</span><span class=number>5</span>
+  <span class=ident>port</span> <span class=number>80</span>
+  <span class=ident>ami</span> <span class=punct>&quot;</span><span class=string>ami-1cd73375</span><span class=punct>&quot;</span>
+  <span class=ident>using</span> <span class=symbol>:ec2</span>
+
+  <span class=ident>cloud</span> <span class=symbol>:app</span> <span class=keyword>do</span>
+
+    <span class=ident>apache</span> <span class=keyword>do</span>
+      <span class=ident>installed_as_worker</span>      
+
+      <span class=ident>has_virtualhost</span> <span class=keyword>do</span>
+
+        <span class=ident>name</span> <span class=punct>&quot;</span><span class=string>poolpartyrb.com</span><span class=punct>&quot;</span>
+        <span class=ident>listen</span><span class=punct>(&quot;</span><span class=string>8080</span><span class=punct>&quot;)</span>
+        <span class=ident>virtual_host_entry</span> <span class=punct>::</span><span class=constant>File</span><span class=punct>.</span><span class=ident>join</span><span class=punct>(</span><span class=constant>File</span><span class=punct>.</span><span class=ident>dirname</span><span class=punct>(</span><span class=constant>__FILE__</span><span class=punct>),</span> <span class=punct>&quot;</span><span class=string>cb/templates</span><span class=punct>&quot;,</span> <span class=punct>&quot;</span><span class=string>virtual_host.conf.erb</span><span class=punct>&quot;)</span>
+
+        <span class=ident>has_git</span><span class=punct>(</span><span class=symbol>:name</span> <span class=punct>=&gt;</span> <span class=punct>&quot;</span><span class=string>poolpartyrepos</span><span class=punct>&quot;,</span> <span class=symbol>:source</span> <span class=punct>=&gt;</span> <span class=punct>&quot;</span><span class=string>git://github.com/auser/xnot.org.git</span><span class=punct>&quot;,</span> <span class=symbol>:path</span> <span class=punct>=&gt;</span> <span class=punct>&quot;</span><span class=string>/var/www/poolpartyrb.com/public</span><span class=punct>&quot;)</span>
+
+      <span class=keyword>end</span>
+    <span class=keyword>end</span>
+
+  <span class=keyword>end</span>
+
+<span class=keyword>end</span></pre>
+</code>
       </p>
 
       <p>
